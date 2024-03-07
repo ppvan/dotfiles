@@ -1,9 +1,6 @@
 #!/usr/bin/env zsh
 ############################
 # This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
-# And also installs MacOS Software
-# And also installs Homebrew Packages and Casks (Apps)
-# And also sets up VS Code
 ############################
 
 # dotfiles directory
@@ -52,7 +49,27 @@ done
 echo "Install Firefox Config"
 cp -R "${dotfiledir}"/.config/firefox/* "${HOME}"/.config/firefox/
 
+# Install native packages
 
+if ! command -v yay &> /dev/null
+then
+    echo "Installing yay"
+    git clone https://aur.archlinux.org/yay-bin.git
+    cd yay-bin || exit
+    makepkg -si
 
+    cd "${dotfiledir}" || exit
+fi
+
+yay install --needed - < packages.txt
+
+apps=(com.discordapp.Discord com.discordapp.Discord com.github.IsmaelMartinez.teams_for_linux com.github.neithern.g4music com.github.unrud.VideoDownloader com.mattjakeman.ExtensionManager com.raggesilver.BlackBox com.skype.Client de.haeckerfelix.Fragments io.dbeaver.DBeaverCommunity io.github.alainm23.planify io.github.celluloid_player.Celluloid me.ppvan.psequel org.freedesktop.appstream-glib org.gimp.GIMP org.gnome.Builder org.gnome.design.AppIconPreview org.gnome.design.IconLibrary org.gnome.meld org.inkscape.Inkscape re.sonny.Workbench)
+
+for app in "${apps[@]}"; do
+    flatpak install -y flathub $app
+done
+
+# Gnome desktop config
+./desktop.sh
 
 echo "Installation Complete!"

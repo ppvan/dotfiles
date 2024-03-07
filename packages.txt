@@ -3,15 +3,11 @@ amd-ucode
 android-tools
 anki-bin
 appstream-glib
-base
 base-devel
 bash-completion
 btrfs-progs
-caddy
 clang
-cmake
 cronie
-dconf-editor
 dmidecode
 docker
 docker-compose
@@ -23,6 +19,7 @@ expac
 eza
 fd
 firefox
+flatpak
 flatpak-builder
 fuse2
 gdb
@@ -45,7 +42,6 @@ gnome-system-monitor
 gnome-tweaks
 gnome-user-share
 gnu-netcat
-google-chrome
 grilo-plugins
 gst-plugin-pipewire
 gtksourceview5
@@ -79,7 +75,6 @@ malcontent
 man-db
 meson
 micro
-mongodb-bin
 mpv
 muon-meson
 nano
@@ -88,11 +83,7 @@ nautilus-open-in-blackbox
 neofetch
 network-manager-applet
 networkmanager
-nginx
 noto-fonts-cjk
-npm
-nvm
-pgcli
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -101,14 +92,11 @@ pkgfile
 postgresql
 python-mutagen
 python-pip
-python-pipenv
 python-virtualenv
 rsync
 rygel
 sassc
-scrcpy
 speech-dispatcher
-sqlitebrowser
 sushi
 thunderbird
 tk
@@ -135,7 +123,6 @@ xorg-xinit
 xorg-xinput
 xorg-xrandr
 yarn
-yay-bin
 yt-dlp
 zoom
 zram-generator

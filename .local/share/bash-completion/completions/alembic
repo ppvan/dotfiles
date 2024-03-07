@@ -1,0 +1,86 @@
+#/usr/bin/env bash
+
+comment_show_last_detailed=1
+comment_show_last_position=0
+
+_simple_alembic_completions() {
+    local WORDS="branches current downgrade edit heads history init list_templates merge revision show stamp upgrade"
+
+    #echo -e "\e[1m[${#COMP_WORDS[@]}]\e[0m" >&2
+
+    if [[ "${#COMP_WORDS[@]}" < 3 ]]; then
+	COMPREPLY=($(compgen -W "${WORDS[@]}" "${COMP_WORDS[1]}"))
+    else
+	#echo -e "\e[2m[${COMP_WORDS[1]}\e[0m" >&2
+	local ALM_PARAMETERS=( '--help' )
+	case "${COMP_WORDS[1]}" in
+	    'history' )
+		ALM_PARAMETERS+=( '--rev-range' '--indicate-current' '--verbose') ;;
+	    'downgrade' ) ;&
+	    'upgrade' )
+		ALM_PARAMETERS+=( '--sql' '--tag' ) ;;
+	    'heads' )
+		ALM_PARAMETERS+=( '--resolve-dependencies' '--verbose' ) ;;
+	    'init' )
+		ALM_PARAMETERS+=( '--package' '--template' ) ;;
+	    'merge' )
+		ALM_PARAMETERS+=( '--message' '--branch-label' '--rev-id' ) ;;
+	    'show' ) ;&
+	    'edit' )
+		ALM_PARAMETERS+=( 'REVISION' ) ;;
+	    'branches' ) ;&
+	    'current' )
+		ALM_PARAMETERS+=( '--verbose' ) ;;
+	    'revision' )
+		ALM_PARAMETERS+=( '--message' '--autogenerate' '--sql' '--head' '--splice' '--branch-label' '--version-path VERSION' '--rev-id' '--depends-on') ;;
+	    'stamp' )
+		ALM_PARAMETERS+=( '--sql' '--tag' '--purge' ) ;;
+	esac
+
+	# echo -e "\e[2m[lastComplete:${COMP_WORDS[-2]}]\e[0m" >&2
+
+	# based on last completed parameter - support next arbitrary param
+	case "${COMP_WORDS[-2]}" in
+	    # standalone parameters
+	    '--help' ) ;&
+	    '--verbose' ) ;&
+	    '--resolve-dependencies' ) ;&
+	    '--package' ) ;&
+	    '--sql' ) ;&
+	    '--autogenerate' ) ;&
+	    '--splice' ) ;&
+	    '--purge' ) ;;
+
+	    # parameters with computed values
+	    '--tag' )
+		local raw_history="$(alembic history | sed -E 's/^[^ ]+ -> ([^ ]+.+)$/\1/')"
+		#echo -e "\n${raw_history}"
+
+		if [ $comment_show_last_detailed = 0 ] &&
+		       [ $comment_show_last_position = $COMP_POINT ]; then
+		    echo -e "\n${raw_history}"
+		    comment_show_last_detailed=1
+		    ALM_PARAMETERS=()
+		else
+		    ALM_PARAMETERS=( $(echo "${raw_history}" | sed -E 's/^([^ ]+).+$/\1/' ) )
+		    comment_show_last_detailed=0
+		fi
+		comment_show_last_position=$COMP_POINT
+		;;
+	    
+	    # parameters with user provided values
+	    --* ) ;&
+	    'REVISION' )
+		ALM_PARAMETERS=()
+		;;
+	esac
+
+	if [[ "${#ALM_PARAMETERS[@]}" != '0' ]]; then
+	    COMPREPLY=($(compgen -W "$(echo "${ALM_PARAMETERS[@]}")" -- "${COMP_WORDS[-1]}"))
+	    #echo -e "\e[35;2m[doing params]\e[0m" >&2
+	fi
+    fi
+    #echo -e "\e[33;2mCOMPREPLY: ${COMPREPLY[@]}\e[0m" >&2
+}
+
+complete -F _simple_alembic_completions alembic

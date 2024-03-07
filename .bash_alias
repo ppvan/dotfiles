@@ -1,0 +1,37 @@
+#/usr/bin/bash
+# My alias
+
+alias sd="sudo systemctl"
+source /usr/share/bash-completion/completions/systemctl
+complete -F _systemctl sd
+
+
+alias diff="diff --color=auto"
+alias grep="grep -E"
+alias ll="exa -lh"
+alias ls="exa"
+alias la="exa -la"
+alias c="wl-copy"
+alias v="wl-paste"
+alias edit="micro"
+alias spt='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias tree='exa --tree --level=3'
+
+
+alias pkglist='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <({ pacman -Qqg xorg; expac -l '\n' '%E' base; } | sort -u)) | sort -n'
+alias pkglast="expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort | tail -n 20"
+alias pkgorphan="pacman -Qqd | pacman -Rsu --print -"
+
+
+# yt-dlp
+alias music-dl="yt-dlp --config-location ${HOME}/.config/yt-dlp/music_config"
+
+# Utils function
+function pkgdeps() {
+    expac -l '\n' %E -S "$1" | sort -u
+}
+
+function mcd()
+{
+    test -d "$1" || mkdir "$1" && cd "$1"
+}

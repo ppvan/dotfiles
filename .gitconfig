@@ -1,0 +1,14 @@
+[user]
+	email = phuclaplace@gmail.com
+	name = ppvan
+	signingkey = /home/ppvan/.ssh/primary_github_key.pub
+[init]
+	defaultBranch = main
+[core]
+	autocrlf = input
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[includeIf "gitdir:/home/ppvan/Documents/code/works/"]
+	path = /home/ppvan/Documents/code/works/.gitconfig-work

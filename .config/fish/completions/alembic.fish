@@ -1,6 +1,3 @@
-set -l commands "branches check current downgrade edit ensure_version heads history init list_templates merge revision show stamp upgrade"
-
-
 function __fish_alembic_needs_command
     set -l cmd (commandline -opc)
     if test (count $cmd) -eq 1
@@ -21,17 +18,17 @@ end
 
 complete -c alembic -f
 
-# current
+complete -f -c alembic -n __fish_alembic_needs_command -a branches -d 'Show current branch points'
+complete -f -c alembic -n __fish_alembic_needs_command -a check -d 'Check if revision command with autogenerate has pending upgrade ops'
+complete -f -c alembic -n __fish_alembic_needs_command -a show -d 'Show the revision(s) denoted by the given symbol'
+complete -f -c alembic -n __fish_alembic_needs_command -a heads -d 'Show current available heads'
+complete -f -c alembic -n __fish_alembic_needs_command -a history -d 'List changeset scripts in chronological order'
+complete -f -c alembic -n __fish_alembic_needs_command -a init -d 'Initialize a script directory'
+complete -f -c alembic -n __fish_alembic_needs_command -a merge -d 'Merge two revisions together. Creates a new migration file'
 complete -f -c alembic -n __fish_alembic_needs_command -a current -d 'Display the current revision for a database'
-
-# upgrade
 complete -f -c alembic -n __fish_alembic_needs_command -a upgrade -d 'Upgrade to a later version'
-
-# downgrade
 complete -f -c alembic -n __fish_alembic_needs_command -a downgrade -d 'Revert to a previous version'
-
-# revision
 complete -f -c alembic -n __fish_alembic_needs_command -a revision -d 'Create a new revision file.'
-complete -f -c alembic -n '__fish_alembic_using_command revision' -s m -l message -d 'Specify a message to use for the revision.'
+complete -f -c alembic -n '__fish_alembic_using_command revision' -s m -l message -l'autogenerate'
 
 

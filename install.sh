@@ -19,6 +19,9 @@ for file in "${files[@]}"; do
     ln -sf "${dotfiledir}/.${file}" "${HOME}/.${file}"
 done
 
+# Link fish config
+ln -s ~/dotfiles/.config/fish/ ~/.config/fish
+
 # Copy some custom desktop files
 echo "Install Custom Desktop Files"
 for file in "${dotfiledir}"/.local/share/applications/*; do
@@ -30,7 +33,6 @@ done
 
 echo "Install Custom Bash Completions"
 for file in "${dotfiledir}"/.local/share/bash-completion/completions/*; do
-    
     echo "$(basename ${file}) -> ${HOME}/.local/share/bash-completion/completions/$(basename ${file})"
     sleep 0.1
     ln -sf "${file}" "${HOME}/.local/share/bash-completion/completions/$(basename ${file})"
@@ -63,7 +65,9 @@ fi
 
 yay install --needed - < packages.txt
 
-apps=(com.discordapp.Discord com.discordapp.Discord com.github.IsmaelMartinez.teams_for_linux com.github.neithern.g4music com.github.unrud.VideoDownloader com.mattjakeman.ExtensionManager com.raggesilver.BlackBox com.skype.Client de.haeckerfelix.Fragments io.dbeaver.DBeaverCommunity io.github.alainm23.planify io.github.celluloid_player.Celluloid me.ppvan.psequel org.freedesktop.appstream-glib org.gimp.GIMP org.gnome.Builder org.gnome.design.AppIconPreview org.gnome.design.IconLibrary org.gnome.meld org.inkscape.Inkscape re.sonny.Workbench)
+
+
+apps=(com.discordapp.Discord com.github.liferooter.textpieces com.github.neithern.g4music com.github.unrud.VideoDownloader com.mattjakeman.ExtensionManager com.raggesilver.BlackBox de.haeckerfelix.Fragments io.github.celluloid_player.Celluloid io.github.limads.Queries me.ppvan.psequel org.freedesktop.appstream-glib org.gimp.GIMP org.gnome.design.AppIconPreview org.gnome.design.IconLibrary org.gnome.meld org.inkscape.Inkscape re.sonny.Workbench)
 
 for app in "${apps[@]}"; do
     flatpak install -y flathub $app

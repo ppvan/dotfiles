@@ -16,7 +16,7 @@ if status is-interactive
     fish_add_path $YARN_ROOT/bin
 
     # Firefox wayland
-    if test"$XDG_SESSION_TYPE" = "wayland"
+    if test "$XDG_SESSION_TYPE" = "wayland"
         set -Ux MOZ_ENABLE_WAYLAND 1
     end
 
@@ -26,6 +26,7 @@ if status is-interactive
     set -Ux VISUAL $EDITOR
 
     # Aliases
+    alias virtualenv="virtualenv --python $(which python)"
     alias diff="diff --color=auto"
     alias grep="grep -E"
     alias ll="exa -lh"
@@ -36,12 +37,13 @@ if status is-interactive
     alias edit="micro"
     alias spt='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
     alias tree='exa --tree --level=3'
-    alias pkglist='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <({ pacman -Qqg xorg; expac -l '\n' '%E' base; } | sort -u)) | sort -n'
     alias pkglast="expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort | tail -n 20"
     alias pkgorphan="pacman -Qqd | pacman -Rsu --print -"
+    alias neofetch="fastfetch -c ~/.config/fastfetch/config.jsonc"
+    alias adb-shell="adb shell -t \"HOME='/sdcard' ENV='/sdcard/.adb/.mkshrc' sh -i\""
 
-    # Load autocompletion
 
+    # Load custom autocompletion
     source ~/.config/fish/completions/alembic.fish
 end
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 ############################
 # This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
 ############################
@@ -39,39 +39,10 @@ for file in "${dotfiledir}"/.local/share/bash-completion/completions/*; do
     sleep 0.1
 done
 
-# Fonts
-for font in "${dotfiledir}"/.local/share/fonts/*; do
-    echo "Installing $(basename ${font}) font"
-    sleep 0.1
-    cp -r "${file}" "${HOME}/.local/share/fonts/"
-done
 
+# Install packages and flatpak apps
 
-# Firefox config
-echo "Install Firefox Config"
-cp -R "${dotfiledir}"/.config/firefox/* "${HOME}"/.config/firefox/
-
-# Install native packages
-
-if ! command -v yay &> /dev/null
-then
-    echo "Installing yay"
-    git clone https://aur.archlinux.org/yay-bin.git
-    cd yay-bin || exit
-    makepkg -si
-
-    cd "${dotfiledir}" || exit
-fi
-
-yay install --needed - < packages.txt
-
-
-
-apps=(com.discordapp.Discord com.github.liferooter.textpieces com.github.neithern.g4music com.github.unrud.VideoDownloader com.mattjakeman.ExtensionManager com.raggesilver.BlackBox de.haeckerfelix.Fragments io.github.celluloid_player.Celluloid io.github.limads.Queries me.ppvan.psequel org.freedesktop.appstream-glib org.gimp.GIMP org.gnome.design.AppIconPreview org.gnome.design.IconLibrary org.gnome.meld org.inkscape.Inkscape re.sonny.Workbench)
-
-for app in "${apps[@]}"; do
-    flatpak install -y flathub $app
-done
+./apps.sh
 
 # Gnome desktop config
 ./desktop.sh

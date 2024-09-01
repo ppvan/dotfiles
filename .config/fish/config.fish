@@ -32,7 +32,7 @@ if status is-interactive
     alias ll="exa -lh"
     alias ls="exa"
     alias la="exa -la"
-    alias c="wl-copy"
+    alias c="wl-copy -n"
     alias v="wl-paste"
     alias edit="micro"
     alias spt='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
@@ -45,7 +45,5 @@ if status is-interactive
 
     # Load custom autocompletion
     source ~/.config/fish/completions/alembic.fish
+    pyenv init - | source
 end
-
-pyenv init - | source
-

@@ -10,5 +10,7 @@
 	format = ssh
 [commit]
 	gpgsign = true
-[includeIf "gitdir:/home/ppvan/Documents/code/works/"]
-	path = /home/ppvan/Documents/code/works/.gitconfig-work
+[includeIf "gitdir:/home/ppvan/Documents/code/work/"]
+	path = /home/ppvan/Documents/code/work/.gitconfig-work
+[http]
+	postBuffer = 157286400

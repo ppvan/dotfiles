@@ -30,21 +30,11 @@ for file in "${dotfiledir}"/.local/share/applications/*; do
     ln -sf "${file}" "${HOME}/.local/share/applications/$(basename ${file})"
 done
 
-
-echo "Install Custom Bash Completions"
-for file in "${dotfiledir}"/.local/share/bash-completion/completions/*; do
-    echo "$(basename ${file}) -> ${HOME}/.local/share/bash-completion/completions/$(basename ${file})"
-    sleep 0.1
-    ln -sf "${file}" "${HOME}/.local/share/bash-completion/completions/$(basename ${file})"
-    sleep 0.1
-done
-
-
 # Install packages and flatpak apps
 
-./apps.sh
+# ./apps.sh
 
 # Gnome desktop config
-./desktop.sh
+# ./desktop.sh
 
 echo "Installation Complete!"

@@ -1,6 +1,0 @@
-[project]
-name = "dotfiles"
-version = "0.1.0"
-description = "A script to setup my dev eviroment"
-readme = "README.md"
-dependencies = []

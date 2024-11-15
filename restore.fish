@@ -13,24 +13,27 @@ function setup_shell
         rm -f "$dot_file"
         ln -s "$file_path" "$dot_file"
     end
-    
-    # Setup fish config directory
-    echo "Link fish shell config dir"
-    set -l link "$HOME/.config/fish"
-    set -l fish_config_dir (realpath "$dotfile_dir/.config/fish")
-    rm -rf "$link"
-    ln -sf "$fish_config_dir" "$link"
-    echo "Link $link -> $fish_config_dir"
+
+    # Setup config dir
+
+    for dir in alacritty fcitx5 firefox fish mako sway waybar wofi zed
+        echo "Link $dir config dir"
+        set -l link "$HOME/.config/$dir"
+        set -l config_dir (realpath "$dotfile_dir/.config/$dir")
+        rm -rf "$link"
+        ln -sf "$config_dir" "$link"
+        echo "Link $link -> $config_dir"
+    end
 end
 
 function setup_desktopfiles
     # Setup desktop files
     set -l desktop_src_dir "$dotfile_dir/.local/share/applications"
     set -l desktop_dest_dir "$HOME/.local/share/applications"
-    
+
     # Create destination directory if it doesn't exist
     mkdir -p "$desktop_dest_dir"
-    
+
     # Find all .desktop files and create symlinks
     for file in $desktop_src_dir/*.desktop
         if test -f "$file"
@@ -125,7 +128,7 @@ end
 
 # Run setup functions
 setup_shell
-setup_desktopfiles
-install_dnf_packages
-install_flatpak_packages
-install_gnome_extensions
+# setup_desktopfiles
+# install_dnf_packages
+# install_flatpak_packages
+# install_gnome_extensions

@@ -1,0 +1,117 @@
+{
+    "layer": "top",
+    "modules-left": [
+        "custom/logo",
+        "sway/workspaces"
+    ],
+    "modules-center": [
+    	"sway/window"
+    ],
+    "modules-right": [
+        "tray",
+        "network",
+        "custom/launcher",
+        "custom/quick-setting",
+        "custom/clock"
+    ],
+    "pulseaudio": {
+        "tooltip": false,
+        "scroll-step": 5,
+        "format": "{icon} {volume}%",
+        "format-muted": "{icon} {volume}%",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "format-icons": {
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "custom/logo": {
+        "format": ""
+    },
+    "custom/quick-setting": {
+        "format": ""
+    },
+    "network": {
+        "interface": "wlan0",
+        "tooltip": true,
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-disconnected": "󰖪",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "Disconnected"
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{: %I:%M %p   %d/%m/%Y}"
+    },
+    "cpu": {
+        "interval": 15,
+        "format": "  {}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "custom/clock": {
+        "exec": "date '+%b %d, %H:%M'",
+        "format": "{}",
+        "interval": "45"
+    },
+    "custom/media": {
+        "interval": 30,
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 20,
+        "format-icons": {
+            "spotify": " ",
+            "default": " "
+        },
+        "escape": true,
+        "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+        "on-click": "playerctl play-pause"
+    },
+    "custom/launcher": {
+        "format": "",
+        "on-click": "wofi -show drun",
+        "on-click-right": "killall wofi"
+    },
+    "custom/power": {
+        "format": " ",
+        "on-click": "bash ~/.config/rofi/leave/leave.sh"
+    },
+    "custom/updates": {
+        "format": "{} Update(s)",
+        "exec": "checkupdates | wc -l",
+        "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
+        "interval": 15,
+        "on-click": "alacritty -e yay -Syu && notify-send 'The system has been updated' "
+    }
+}

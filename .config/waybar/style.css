@@ -1,0 +1,93 @@
+* {
+	border: none;
+	border-radius: 4px;
+    font-family: "Iosevka Extended" ;
+	font-size: 14px;
+	min-height: 10px;
+}
+
+
+window#waybar {
+    background: none;
+    color: white;
+}
+
+box.modules-right, box.modules-left {
+	padding-left: 8px;
+	padding-right: 8px;
+	/* background: blue; */
+}
+
+box.modules-right > widget > label {
+	padding-left: 8px;
+	padding-right: 8px;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+window#waybar.hidden {
+	opacity: 0.2;
+}
+
+#custom-logo {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+#workspaces {
+
+}
+
+#workspaces button {
+	color: white;
+}
+
+#workspaces button.occupied {
+
+}
+
+#workspaces button.focused {
+	background: #262626;
+}
+
+#workspaces button:hover {
+
+}
+
+#workspaces button.focused:hover {
+    color: #E8A2AF;
+    /* background:  */
+}
+
+#network {
+
+}
+
+#battery {
+
+}
+
+#battery.charging, #battery.plugged {
+}
+
+#battery.critical:not(.charging) {
+}
+
+#custom-clock {
+}
+
+#tray {
+	margin-right: 16px;
+	/* border: 1px solid red; */
+}
+
+#custom-launcher {
+	
+}
+
+#custom-power {
+}
+
+#custom-wallpaper {
+
+}

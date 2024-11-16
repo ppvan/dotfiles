@@ -1,0 +1,29 @@
+@define-color accent #57a0d9;
+@define-color background #19171a;
+@define-color cards #201e21;
+@define-color fg #d8dee9;
+@define-color sfg #2c292e;
+@define-color imgcol linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85));
+
+window {
+    /* background-color: @background; */
+    color: @fg;
+    border: 1px solid red;
+    border-radius: 12px;
+}
+
+#input {
+}
+
+#inner-box {
+    margin: 5px;
+    /* background-color: @card; */
+    border-radius: 12px;
+}
+
+#outer-box {
+    /* background-color: @background; */
+    margin: 8px;
+    border: 1px solid yellow;
+    border-radius: 12px;
+}

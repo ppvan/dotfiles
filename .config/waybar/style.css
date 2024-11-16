@@ -1,93 +1,102 @@
-* {
-	border: none;
-	border-radius: 4px;
-    font-family: "Iosevka Extended" ;
-	font-size: 14px;
-	min-height: 10px;
-}
+@define-color accent #57a0d9;
+@define-color background #19171a;
+@define-color cards #201e21;
+@define-color fg #d8dee9;
+@define-color sfg #2c292e;
 
+* {
+    border: none;
+    border-radius: 4px;
+    font-family: "Iosevka Term";
+    font-size: 14px;
+    min-height: 10px;
+}
 
 window#waybar {
     background: none;
     color: white;
 }
 
-box.modules-right, box.modules-left {
-	padding-left: 8px;
-	padding-right: 8px;
-	/* background: blue; */
+box.modules-right {
+    padding-right: 8px;
+    padding: 0 4px;
+    margin: 4px 0;
+    margin-right: 2px;
+    background: @cards;
+}
+box.modules-left {
+    padding-left: 8px;
+    /* background: blue; */
 }
 
 box.modules-right > widget > label {
-	padding-left: 8px;
-	padding-right: 8px;
-	margin-left: 4px;
-	margin-right: 4px;
+    padding-left: 6px;
+    margin: 4px 0;
+    /* padding-right: 6px; */
+    margin-left: 4px;
+    /* margin-right: 4px; */
 }
 
 window#waybar.hidden {
-	opacity: 0.2;
+    opacity: 0.2;
 }
 
 #custom-logo {
-	margin-left: 8px;
-	margin-right: 8px;
+    padding: 0 8px;
 }
 
 #workspaces {
-
 }
 
 #workspaces button {
-	color: white;
+    color: white;
 }
 
 #workspaces button.occupied {
-
 }
 
 #workspaces button.focused {
-	background: #262626;
+    background: #262626;
 }
 
 #workspaces button:hover {
-
 }
 
 #workspaces button.focused:hover {
-    color: #E8A2AF;
+    color: #e8a2af;
     /* background:  */
 }
 
 #network {
-
 }
 
 #battery {
-
 }
 
-#battery.charging, #battery.plugged {
+#battery.charging,
+#battery.plugged {
 }
 
 #battery.critical:not(.charging) {
 }
 
 #custom-clock {
+    padding-right: 0;
+    margin-right: 0;
 }
 
 #tray {
-	margin-right: 16px;
-	/* border: 1px solid red; */
+    margin-right: 8px;
+    padding: 0 4px;
+    margin: 4px 0;
+    background: #fafaff;
 }
 
 #custom-launcher {
-	
 }
 
 #custom-power {
 }
 
 #custom-wallpaper {
-
 }

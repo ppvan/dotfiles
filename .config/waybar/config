@@ -5,13 +5,15 @@
         "sway/workspaces"
     ],
     "modules-center": [
-    	"sway/window"
+      "mpris"
     ],
     "modules-right": [
+        "custom/waybar-media",
         "tray",
         "network",
-        "custom/launcher",
-        "custom/quick-setting",
+        "custom/caps",
+        "custom/ime",
+        "battery",
         "custom/clock"
     ],
     "pulseaudio": {
@@ -29,19 +31,21 @@
         }
     },
     "custom/logo": {
-        "format": ""
+        "format": " ",
+        "on-click": "$HOME/.config/wofi/power_menu/wofi_powermenu.fish"
     },
     "custom/quick-setting": {
         "format": ""
     },
     "network": {
         "interface": "wlan0",
+        "max-width": 50,
         "tooltip": true,
-        "format-wifi": "",
-        "format-ethernet": "",
+        "format-wifi": "  ",
+        "format-ethernet": "󰈀",
         "format-disconnected": "󰖪",
         "tooltip-format": "{ifname} via {gwaddr}",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-wifi": "{essid}  {bandwidthDownBytes}  {bandwidthUpBytes}",
         "tooltip-format-ethernet": "{ifname}",
         "tooltip-format-disconnected": "Disconnected"
     },
@@ -51,9 +55,9 @@
             "warning": 30,
             "critical": 20
         },
-        "format": "{icon}  {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
+        "format": "{icon} {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
         "format-alt": "{time} {icon}",
         "format-icons": [
             "",
@@ -81,7 +85,7 @@
         "max-length": 10
     },
     "custom/clock": {
-        "exec": "date '+%b %d, %H:%M'",
+        "exec": "date '+%a %d %b, %H:%M'",
         "format": "{}",
         "interval": "45"
     },
@@ -98,14 +102,16 @@
         "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
         "on-click": "playerctl play-pause"
     },
-    "custom/launcher": {
-        "format": "",
-        "on-click": "wofi -show drun",
-        "on-click-right": "killall wofi"
+    "custom/ime": {
+        "format": " {}",
+        "on-click": "dbus-send --session --print-reply=literal --dest=org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1.Toggle",
+        "exec": "$HOME/.config/waybar/scripts/ime.fish"
     },
-    "custom/power": {
-        "format": " ",
-        "on-click": "bash ~/.config/rofi/leave/leave.sh"
+    "custom/caps": {
+        "format": "{} ",
+        "exec": "$HOME/.config/waybar/scripts/capslock.fish",
+        "tooltip-format": "Capslock ON",
+        "interval": 1
     },
     "custom/updates": {
         "format": "{} Update(s)",
@@ -113,5 +119,17 @@
         "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
         "interval": 15,
         "on-click": "alacritty -e yay -Syu && notify-send 'The system has been updated' "
+    },
+    "mpris": {
+      "format": "{player_icon} {dynamic}",
+      "format-paused": "{status_icon} <i>{dynamic}</i>",
+      "player-icons": {
+        "default": "▶",
+        "firefox": "",
+        "mpv": "🎵"
+      },
+      "status-icons": {
+        "paused": "⏸"
+      }
     }
 }

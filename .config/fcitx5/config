@@ -1,4 +1,6 @@
 [Hotkey]
+# Trigger Input Method
+TriggerKeys=
 # Enumerate when press trigger key repeatedly
 EnumerateWithTriggerKeys=True
 # Enumerate Input Method Forward
@@ -7,9 +9,6 @@ EnumerateForwardKeys=
 EnumerateBackwardKeys=
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
-
-[Hotkey/TriggerKeys]
-0=Control+space
 
 [Hotkey/AltTriggerKeys]
 0=Shift_L
@@ -78,6 +77,8 @@ AutoSavePeriod=30
 [Behavior/DisabledAddons]
 0=emoji
 1=kimpanel
-2=spell
-3=virtualkeyboard
+2=notificationitem
+3=notifications
+4=spell
+5=virtualkeyboard
 

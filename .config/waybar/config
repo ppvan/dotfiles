@@ -87,7 +87,7 @@
     "custom/clock": {
         "exec": "date '+%a %d %b, %H:%M'",
         "format": "{}",
-        "interval": "45"
+        "interval": 60
     },
     "custom/media": {
         "interval": 30,

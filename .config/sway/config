@@ -7,8 +7,10 @@ include /etc/sway/config.d/*
 #
 # Logo key. Use Mod1 for Alt.
 
+set $bg ~/.local/share/backgrounds/astronaut-nord.png
+set $lockbg ~/.local/share/backgrounds/cliff-edge.jpg
 set $opacity 0.95
-set $mod Mod1
+set $mod Mod4
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -17,13 +19,13 @@ set $right l
 
 set $term alacritty
 set $menu wofi
-set $browser firefox
+set $browser zen-browser
 set $code zeditor
 
 output eDP-1 {
 	mode 2880x1800@90Hz
 	scale 2
-	background ~/.local/share/backgrounds/2024-11-10-19-08-48-astronaut-nord.png fill
+	background $bg fill
 }
 
 input "1739:52804:SYNACE44:00_06CB:CE44_Touchpad" {
@@ -73,16 +75,17 @@ client.urgent #b48ead #2e3440 #d8dee9 #a3be8c #b48ead
 for_window [class=".*"] opacity $opacity
 for_window [app_id=".*"] opacity $opacity
 
-for_window [app_id="firefox"] border none; opacity 1; workspace 1;
+for_window [app_id="zen-browser"] border none; opacity 1; workspace 1;
 for_window [app_id="Alacritty"] border none
+for_window [app_id="org.pwmt.zathura"] opacity 1;
 for_window [app_id="wofi"] background none
 for_window [app_id="xdg-desktop-portal-gtk"] floating enable
 
-assign [app_id="firefox"] workspace 
+assign [app_id="zen-browser"] workspace 
 assign [app_id="dev.zed.Zed"] workspace 󰅩
 assign [app_id="Alacritty"] workspace 
 
-for_window [app_id="firefox"] focus
+for_window [app_id="zen-browser"] focus
 for_window [app_id="dev.zed.Zed"] focus
 for_window [app_id="Alacritty"] focus
 
@@ -97,10 +100,10 @@ bindsym $mod+Shift+e exit
 # Moving around:
 #
 # Move your focus around
-bindsym $mod+$left focus left
+# bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
-bindsym $mod+$right focus right
+# bindsym $mod+$right focus right
 # or use $mod+[up|down|left|right]
 #bindsym $mod+Left focus left
 #bindsym $mod+Down focus down
@@ -129,9 +132,9 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+1 move container to workspace 
+bindsym $mod+Shift+2 move container to workspace 󰅩
+bindsym $mod+Shift+3 move container to workspace 
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
@@ -147,7 +150,8 @@ bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+n floating toggle
 bindsym $mod+n focus mode_toggle
-#bindsym $mod+a focus parent
+
+bindsym $mod+l exec swaylock -i $lockbg --hide-keyboard-layout
 
 bar {
     swaybar_command waybar
@@ -166,5 +170,15 @@ exec env GTK_IM_MODULE=$GTK_IM_MODULE QT_IM_MODULE=$QT_IM_MODULE XMODIFIERS=$XMO
 
 exec mako
 exec_always swayosd-server
+exec swayidle -w \
+         timeout 300 'swaylock --hide-keyboard-layout -f -c 000000 -i $lock_bg' \
+         timeout 600 'swaymsg "output * power off"' \
+         resume 'swaymsg "output * power on"' \
+         after-resume 'swaymsg "output * enable"' \
+         before-sleep 'swaylock --hide-keyboard-layout -f -c 000000 -i $lock_bg'
 
-exec $term
+exec $browser
+
+exec wl-copy --watch cliphist store
+bindsym $mod+Shift+v exec cliphist list | wofi -S dmenu | cliphist decode | wl-copy
+

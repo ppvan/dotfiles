@@ -45,3 +45,8 @@ window {
 #text {
     margin-left: 8px;
 }
+
+#text:selected {
+	 margin-left: 8px;
+	 color: @sfg;
+}

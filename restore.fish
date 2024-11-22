@@ -16,7 +16,7 @@ function setup_shell
 
     # Setup config dir
 
-    for dir in alacritty fcitx5 firefox fish mako sway waybar wofi zed
+    for dir in alacritty fcitx5 fish mako sway swaylock waybar wofi zed
         echo "Link $dir config dir"
         set -l link "$HOME/.config/$dir"
         set -l config_dir (realpath "$dotfile_dir/.config/$dir")

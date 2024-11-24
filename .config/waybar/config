@@ -1,16 +1,16 @@
 {
     "layer": "top",
     "modules-left": [
-        "custom/logo",
         "sway/workspaces"
     ],
     "modules-center": [
       "mpris"
     ],
     "modules-right": [
-        "custom/waybar-media",
-        "tray",
         "network",
+        "cpu",
+        "memory",
+        "tray",
         "custom/caps",
         "custom/ime",
         "battery",
@@ -34,16 +34,14 @@
         "format": " ",
         "on-click": "$HOME/.config/wofi/power_menu/wofi_powermenu.fish"
     },
-    "custom/quick-setting": {
-        "format": ""
-    },
     "network": {
         "interface": "wlan0",
         "max-width": 50,
         "tooltip": true,
-        "format-wifi": "  ",
+        "format-wifi": "  {essid}",
+        "format-icons": ["", "", "", "", ""],
         "format-ethernet": "󰈀",
-        "format-disconnected": "󰖪",
+        "format-disconnected": "Disconnected ⚠",
         "tooltip-format": "{ifname} via {gwaddr}",
         "tooltip-format-wifi": "{essid}  {bandwidthDownBytes}  {bandwidthUpBytes}",
         "tooltip-format-ethernet": "{ifname}",
@@ -55,7 +53,7 @@
             "warning": 30,
             "critical": 20
         },
-        "format": "{icon} {capacity}%",
+        "format": "{icon}  {capacity}%",
         "format-charging": "  {capacity}%",
         "format-plugged": "  {capacity}%",
         "format-alt": "{time} {icon}",
@@ -71,9 +69,6 @@
         "icon-size": 18,
         "spacing": 10
     },
-    "clock": {
-        "format": "{: %I:%M %p   %d/%m/%Y}"
-    },
     "cpu": {
         "interval": 15,
         "format": "  {}%",
@@ -84,23 +79,15 @@
         "format": " {}%",
         "max-length": 10
     },
+    "sway/workspaces": {
+    "persistent-workspaces": {
+        "󰖟": [], "󰅩": [], "": [],
+    }
+},
     "custom/clock": {
         "exec": "date '+%a %d %b, %H:%M'",
         "format": "{}",
         "interval": 60
-    },
-    "custom/media": {
-        "interval": 30,
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 20,
-        "format-icons": {
-            "spotify": " ",
-            "default": " "
-        },
-        "escape": true,
-        "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
-        "on-click": "playerctl play-pause"
     },
     "custom/ime": {
         "format": " {}",
@@ -123,6 +110,7 @@
     "mpris": {
       "format": "{player_icon} {dynamic}",
       "format-paused": "{status_icon} <i>{dynamic}</i>",
+      "dynamic-len": 50,
       "player-icons": {
         "default": "▶",
         "firefox": "",

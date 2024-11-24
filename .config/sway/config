@@ -8,7 +8,8 @@ include /etc/sway/config.d/*
 # Logo key. Use Mod1 for Alt.
 
 set $bg ~/.local/share/backgrounds/astronaut-nord.png
-set $lockbg ~/.local/share/backgrounds/cliff-edge.jpg
+set $/lockbg ~/.local/share/backgrounds/cliff-edge.jpg
+set $powermenu ~/.config/wofi/power_menu/wofi_powermenu.fish
 set $opacity 0.95
 set $mod Mod4
 # Home row direction keys, like vim
@@ -34,11 +35,16 @@ input "1739:52804:SYNACE44:00_06CB:CE44_Touchpad" {
 	natural_scroll enabled
 }
 
+input "1:1:AT_Translated_Set_2_keyboard" {
+    xkb_options caps:swapescape
+}
+
 bindgesture swipe:right workspace prev
 bindgesture swipe:left workspace next
 
 # manually bind ime toogle to detected in ~/.config/waybar/scripts/ime.fish
 bindsym Ctrl+Space exec dbus-send --session --print-reply=literal --dest=org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1.Toggle
+bindsym $mod+m exec $powermenu
 
 # Sink volume raise optionally with --device
 bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
@@ -49,19 +55,20 @@ bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
 # Source volume toggle mute
 bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
 
-# Capslock (If you don't want to use the backend)
-bindsym --release Caps_Lock exec swayosd-client --caps-lock
-
 # Brightness raise
 bindsym XF86MonBrightnessUp exec swayosd-client --brightness raise
 # Brightness lower
 bindsym XF86MonBrightnessDown exec swayosd-client --brightness lower
 bindsym $mod+t exec $term
+bindsym $mod+n exec $code
 bindsym $mod+Return exec $browser
 bindsym $mod+q kill
 
 # screen shot
-bindsym Print exec grim;exec notify-send "screenshot saved to ~/Pictures/"
+bindsym Print exec grim "$(xdg-user-dir PICTURES)/Screenshots/Screenshot_$(date +%Y%m%d_%H%M%S).png"; exec notify-send "Screen shot saved" "Screenshots/$(date +%Y%m%d_%H%M%S).png"
+bindsym $mod+p exec ~/.config/sway/scripts/screenshot-window.fish
+
+bindsym $mod+Shift+p exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/Screenshots/Screenshot_$(date +%Y%m%d_%H%M%S).png"
 
 # laucher
 bindsym $mod+space exec $menu
@@ -72,20 +79,17 @@ client.focused #4c566a #2e3440 #d8dee9 #4c566a #4c566a
 client.unfocused #000000 #000000 #4c566a #000000 #000000
 client.urgent #b48ead #2e3440 #d8dee9 #a3be8c #b48ead
 
-for_window [class=".*"] opacity $opacity
-for_window [app_id=".*"] opacity $opacity
-
-for_window [app_id="zen-browser"] border none; opacity 1; workspace 1;
-for_window [app_id="Alacritty"] border none
+for_window [app_id="zen-browser"] opacity 1; workspace 1;
+for_window [app_id="Alacritty"] focus;
 for_window [app_id="org.pwmt.zathura"] opacity 1;
 for_window [app_id="wofi"] background none
 for_window [app_id="xdg-desktop-portal-gtk"] floating enable
 
-assign [app_id="zen-browser"] workspace 
+assign [app_id="zen-browser"] workspace 󰖟
 assign [app_id="dev.zed.Zed"] workspace 󰅩
 assign [app_id="Alacritty"] workspace 
 
-for_window [app_id="zen-browser"] focus
+for_window [app_id="zen-browser"] focus; opacity 0.96
 for_window [app_id="dev.zed.Zed"] focus
 for_window [app_id="Alacritty"] focus
 
@@ -98,17 +102,6 @@ bindsym $mod+r reload
 bindsym $mod+Shift+e exit
 #
 # Moving around:
-#
-# Move your focus around
-# bindsym $mod+$left focus left
-bindsym $mod+$down focus down
-bindsym $mod+$up focus up
-# bindsym $mod+$right focus right
-# or use $mod+[up|down|left|right]
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus up
-#bindsym $mod+Right focus right
 
 # _move_ the focused window with the same, but add Shift
 bindsym $mod+Shift+$left move left
@@ -121,7 +114,7 @@ bindsym $mod+Shift+$right move right
 #bindsym $mod+Shift+Up move up
 #bindsym $mod+Shift+Right move right
 
-bindsym $mod+1 workspace 
+bindsym $mod+1 workspace 󰖟
 bindsym $mod+2 workspace 󰅩
 bindsym $mod+3 workspace 
 bindsym $mod+4 workspace 4
@@ -132,7 +125,7 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 
+bindsym $mod+Shift+1 move container to workspace 󰖟
 bindsym $mod+Shift+2 move container to workspace 󰅩
 bindsym $mod+Shift+3 move container to workspace 
 bindsym $mod+Shift+4 move container to workspace 4
@@ -148,8 +141,6 @@ bindsym $mod+v splitv
 bindsym $mod+s layout stacking
 bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
-bindsym $mod+Shift+n floating toggle
-bindsym $mod+n focus mode_toggle
 
 bindsym $mod+l exec swaylock -i $lockbg --hide-keyboard-layout
 
@@ -169,7 +160,7 @@ set $GLFW_IM_MODULE fcitx
 exec env GTK_IM_MODULE=$GTK_IM_MODULE QT_IM_MODULE=$QT_IM_MODULE XMODIFIERS=$XMODIFIERS INPUT_METHOD=$INPUT_METHOD SDL_IM_MODULE=$SDL_IM_MODULE GLFW_IM_MODULE=$GLFW_IM_MODULE
 
 exec mako
-exec_always swayosd-server
+# exec_always swayosd-server
 exec swayidle -w \
          timeout 300 'swaylock --hide-keyboard-layout -f -c 000000 -i $lock_bg' \
          timeout 600 'swaymsg "output * power off"' \
@@ -179,6 +170,6 @@ exec swayidle -w \
 
 exec $browser
 
-exec wl-copy --watch cliphist store
+# exec wl-paste -p -w 'wl-copy'
+exec_always wl-paste --watch cliphist store
 bindsym $mod+Shift+v exec cliphist list | wofi -S dmenu | cliphist decode | wl-copy
-

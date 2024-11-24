@@ -25,8 +25,6 @@ box.modules-right {
     background: @cards;
 }
 box.modules-left {
-    padding-left: 8px;
-    /* background: blue; */
 }
 
 box.modules-right > widget > label {
@@ -41,22 +39,24 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-#custom-logo {
-    padding: 0 8px;
-}
-
 #workspaces {
+    margin: 4px 0;
+    margin-left: 2px;
+    background: @cards;
 }
 
 #workspaces button {
     color: white;
+    margin: 4px 0;
+    padding: 4px;
+    margin: 0px;
 }
 
 #workspaces button.occupied {
 }
 
 #workspaces button.focused {
-    background: #262626;
+    background: @accent;
 }
 
 #workspaces button:hover {
@@ -99,4 +99,8 @@ window#waybar.hidden {
 }
 
 #custom-wallpaper {
+}
+
+#custom-ime {
+	margin-top: 4px;
 }

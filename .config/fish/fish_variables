@@ -1,6 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export EDITOR:micro
+SETUVAR --export FZF_ALT_C_OPTS:\x2d\x2dwalker\x2dskip\x20\x2egit\x2cnode_modules\x2ctarget\x20\x2d\x2dpreview\x20\x27tree\x20\x2dC\x20\x7b\x7d\x27
+SETUVAR --export FZF_CTRL_T_OPTS:\x2d\x2dwalker\x2dskip\x20\x2egit\x2cnode_modules\x2ctarget\x20\x2d\x2dpreview\x20\x27eza\x20\x2d\x2dtree\x20\x2dL\x3d3\x20\x7b\x7d\x27
 SETUVAR --export --path GOPATH:/home/ppvan/\x2elocal/go
 SETUVAR --export MOZ_ENABLE_WAYLAND:1
 SETUVAR --export PYENV_ROOT:/home/ppvan/\x2epyenv

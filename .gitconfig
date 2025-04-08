@@ -1,7 +1,7 @@
 [user]
 	email = phuclaplace@gmail.com
 	name = ppvan
-	signingkey = /home/ppvan/.ssh/primary_github_key.pub
+	signingkey = /home/ppvan/.ssh/id_rsa.pub
 [init]
 	defaultBranch = main
 [core]
@@ -10,7 +10,5 @@
 	format = ssh
 [commit]
 	gpgsign = true
-[includeIf "gitdir:/home/ppvan/Documents/code/work/"]
-	path = /home/ppvan/Documents/code/work/.gitconfig-work
 [http]
 	postBuffer = 157286400

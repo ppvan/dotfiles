@@ -42,7 +42,10 @@ packages=(
     "bat"
     "fish"
     "git"
-    "eza"
+    "eza",
+    "jq",
+    "tlrc",
+    "mycli"
 )
 
 # Loop over the array to install each application.

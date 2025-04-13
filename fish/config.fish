@@ -7,6 +7,7 @@ if status is-interactive
     set -Ux EDITOR micro
     set -Ux VISUAL $EDITOR
 
+
     # Aliases
     alias virtualenv="virtualenv --python $(which python)"
     alias diff="diff --color=auto"
@@ -15,15 +16,19 @@ if status is-interactive
     alias ls="eza"
     alias la="eza -la"
     alias tree='eza --tree --level=3'
-    alias c="wl-copy -n"
-    alias v="wl-paste"
     alias edit="micro"
     alias neofetch="fastfetch -c ~/.config/fastfetch/config.jsonc"
 
+    
     switch (uname)
         case Darwin
+            # OSX (Mac)
             eval "/opt/bin/brew shellenv"
+            alias c="pbcopy"
         case Linux
+            # WSL 2
             eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+            fish_add_path /mnt/c/WINDOWS/system32/clip.exe
+            alias c="clip -n"
     end
 end

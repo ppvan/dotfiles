@@ -29,4 +29,4 @@ fi
 unset rc
 
 # Start fish shell
-exec "/home/linuxbrew/.linuxbrew/fish"
+exec "/home/linuxbrew/.linuxbrew/bin/fish"

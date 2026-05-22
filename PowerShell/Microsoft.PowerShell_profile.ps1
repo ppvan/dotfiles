@@ -2,7 +2,7 @@
 Invoke-Expression (&starship init powershell)
 
 # ----- CDPATH ----------------------------------
-$env:CDPATH = "${HOME}:$HOME/Documents:$HOME/Downloads:$HOME/Documents/projects"
+$env:CDPATH = "${HOME}:$HOME/Documents:$HOME/Downloads:$HOME/Documents/projects:."
 Import-Module CDPath
 Set-Alias -Name cd           -Value Set-LocationEnhanced -Scope Global -Option AllScope -Force
 Set-Alias -Name Set-Location -Value Set-LocationEnhanced -Scope Global -Option AllScope -Force

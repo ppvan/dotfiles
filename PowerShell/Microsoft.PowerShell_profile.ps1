@@ -2,7 +2,7 @@
 Invoke-Expression (&starship init powershell)
 
 # ----- CDPATH ----------------------------------
-$env:CDPATH = "${HOME}:$HOME/Documents:$HOME/Downloads:$HOME/Documents/code"
+$env:CDPATH = "${HOME}:$HOME/Documents:$HOME/Downloads:$HOME/Documents/projects"
 Import-Module CDPath
 Set-Alias -Name cd           -Value Set-LocationEnhanced -Scope Global -Option AllScope -Force
 Set-Alias -Name Set-Location -Value Set-LocationEnhanced -Scope Global -Option AllScope -Force
@@ -16,42 +16,63 @@ Set-Alias cd Set-LocationEnhanced -Scope Global -Option AllScope -Force
 Set-Alias Set-Location Set-LocationEnhanced -Scope Global -Option AllScope -Force
 # ------------------------------------------------------
 
+# Auto-generate .cmd shims for .ps1 scripts
+$scriptsDir = "$PSScriptRoot\Scripts"
+
+Get-ChildItem -Path $scriptsDir -Filter "*.ps1" | ForEach-Object {
+    $cmdPath = Join-Path $scriptsDir "$($_.BaseName).cmd"
+    
+    if (-not (Test-Path $cmdPath)) {
+        $content = "@echo off`npowershell -NoProfile -File `"%~dp0$($_.Name)`" %*"
+        Set-Content -Path $cmdPath -Value $content
+        Write-Host "Created: $($_.BaseName).cmd"
+    }
+}
+
+# Add Scripts to PATH
+$env:PATH += ";$PSScriptRoot\Scripts"
+
+# Remove Windows system paths from completion candidates
+$env:PATH = ($env:PATH -split ';' | Where-Object {
+    $_ -notmatch '^C:\\Windows' -and
+    $_ -notmatch 'WindowsPowerShell' -and
+    $_ -notmatch 'WindowsApps' -and
+    $_ -notmatch '^C:\\Program Files\\Common Files' -and
+    $_ -notmatch 'C:\\Program Files\\PowerShell\\7\\'
+} | Select-Object -Unique) -join ';'
+
 # PSreadline ------------------------------------------------------------------------
 $PSReadLineOptions = @{
     EditMode = 'Windows'
     HistoryNoDuplicates = $true
     HistorySearchCursorMovesToEnd = $true
     Colors = @{
-        Command = '#87CEEB'  # SkyBlue (pastel)
-        Parameter = '#98FB98'  # PaleGreen (pastel)
-        Operator = '#FFB6C1'  # LightPink (pastel)
-        Variable = '#DDA0DD'  # Plum (pastel)
-        String = '#FFDAB9'  # PeachPuff (pastel)
-        Number = '#B0E0E6'  # PowderBlue (pastel)
-        Type = '#F0E68C'  # Khaki (pastel)
-        Comment = '#D3D3D3'  # LightGray (pastel)
-        Keyword = '#8367c7'  # Violet (pastel)
-        Error = '#FF6347'  # Tomato (keeping it close to red for visibility)
+        Command   = '#9ccfd8'  # foam
+        Parameter = '#c4a7e7'  # iris
+        Operator  = '#908caa'  # subtle
+        Variable  = '#f6c177'  # gold
+        String    = '#f6c177'  # gold
+        Number    = '#ea9a97'  # love
+        Type      = '#9ccfd8'  # foam
+        Comment   = '#6e6a86'  # muted
+        Keyword   = '#c4a7e7'  # iris
+        Error     = '#eb6f92'  # love
     }
     PredictionSource = 'History'
     PredictionViewStyle = 'ListView'
     BellStyle = 'None'
 }
 
-Set-PSReadLineOption -Options $PSReadLineOptions
+Set-PSReadLineOption @PSReadLineOptions
 
 # Custom key handlers
+Set-PSReadLineKeyHandler -Chord Ctrl+a -Function BeginningOfLine
+Set-PSReadLineKeyHandler -Chord Ctrl+e -Function EndOfLine
+Set-PSReadLineKeyHandler -Chord Ctrl+k -Function KillLine
+Set-PSReadLineKeyHandler -Chord Ctrl+u -Function BackwardKillLine
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
-Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
-Set-PSReadLineKeyHandler -Chord 'Ctrl+w' -Function BackwardDeleteWord
-Set-PSReadLineKeyHandler -Chord 'Alt+d' -Function DeleteWord
-Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
-Set-PSReadLineKeyHandler -Chord 'Ctrl+RightArrow' -Function ForwardWord
-Set-PSReadLineKeyHandler -Chord 'Ctrl+z' -Function Undo
-Set-PSReadLineKeyHandler -Chord 'Ctrl+y' -Function Redo
-
 # Custom functions for PSReadLine
 Set-PSReadLineOption -AddToHistoryHandler {
     param($line)
@@ -78,3 +99,4 @@ $scriptblock = {
 
 Register-ArgumentCompleter -Native -CommandName git, npm, deno -ScriptBlock $scriptblock
 #-----------------------------------------------------------------------------------------------------------
+

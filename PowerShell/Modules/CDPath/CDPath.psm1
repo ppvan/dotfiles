@@ -57,26 +57,33 @@ function Set-LocationEnhanced {
 function Register-CDPathCompleter {
     Register-ArgumentCompleter -CommandName 'Set-LocationEnhanced','cd' -ParameterName 'Path' -ScriptBlock {
         param($cmd, $param, $wordToComplete, $ast, $fakeBound)
-
         $results = [System.Collections.Generic.List[object]]::new()
+        $seen    = [System.Collections.Generic.HashSet[string]]::new(
+                       [System.StringComparer]::OrdinalIgnoreCase)
 
-        Get-ChildItem -Path "$wordToComplete*" -Directory -ErrorAction SilentlyContinue |
-            ForEach-Object {
-                $results.Add([System.Management.Automation.CompletionResult]::new(
-                    $_.FullName, $_.Name, 'ProviderItem', $_.FullName))
-            }
-
+        # --- 1. CDPATH matches first (short-name, preferred) ---
         foreach ($base in Get-CDPATHDirs) {
             Get-ChildItem -Path $base -Directory -ErrorAction SilentlyContinue |
                 Where-Object { $_.Name -like "$wordToComplete*" } |
                 ForEach-Object {
-                    $results.Add([System.Management.Automation.CompletionResult]::new(
-                        $_.Name,
-                        "$($_.Name)  [$base]",
-                        'ProviderItem',
-                        $_.FullName))
+                    if ($seen.Add($_.FullName)) {
+                        $results.Add([System.Management.Automation.CompletionResult]::new(
+                            $_.Name,
+                            "$($_.Name)  [$base]",
+                            'ProviderItem',
+                            $_.FullName))
+                    }
                 }
         }
+
+        # --- 2. CWD fallback (only dirs not already covered by CDPATH) ---
+        Get-ChildItem -Path "$wordToComplete*" -Directory -ErrorAction SilentlyContinue |
+            ForEach-Object {
+                if ($seen.Add($_.FullName)) {
+                    $results.Add([System.Management.Automation.CompletionResult]::new(
+                        $_.FullName, $_.Name, 'ProviderItem', $_.FullName))
+                }
+            }
 
         $results
     }

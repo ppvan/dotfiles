@@ -34,7 +34,6 @@ $env:PATH += ";$PSScriptRoot\Scripts"
 
 # Remove Windows system paths from completion candidates
 $env:PATH = ($env:PATH -split ';' | Where-Object {
-    $_ -notmatch '^C:\\Windows' -and
     $_ -notmatch 'WindowsPowerShell' -and
     $_ -notmatch 'WindowsApps' -and
     $_ -notmatch '^C:\\Program Files\\Common Files' -and
@@ -79,6 +78,45 @@ Set-PSReadLineOption -AddToHistoryHandler {
     $sensitive = @('password', 'secret', 'token', 'apikey', 'connectionstring')
     $hasSensitive = $sensitive | Where-Object { $line -match $_ }
     return ($null -eq $hasSensitive)
+}
+
+# Strip .exe/.cmd/.ps1 extensions from command name completions
+$global:__OriginalTabExpansion2 = $function:TabExpansion2
+
+function TabExpansion2 {
+    param($inputScript, $cursorColumn, $options)
+
+    $result = & $global:__OriginalTabExpansion2 $inputScript $cursorColumn $options
+
+    if ($result -and $result.CompletionMatches) {
+        $cleaned = $result.CompletionMatches
+        | Where-Object {
+            $completion = $_
+            $completion.CompletionText -notmatch '^(Microsoft).*'
+        } | ForEach-Object {
+            $completion = $_
+            # Only strip for command completions (not path/file completions)
+            if ($completion.ResultType -eq 'Command' -and $completion.CompletionText -match '\.(exe|cmd|ps1)$') {
+                [System.Management.Automation.CompletionResult]::new(
+                    ($completion.CompletionText -replace '\.(exe|cmd|ps1)$', ''),
+                    ($completion.ListItemText   -replace '\.(exe|cmd|ps1)$', ''),
+                    $completion.ResultType,
+                    $completion.ToolTip
+                )
+            } else {
+                $completion
+            }
+        }
+        # CompletionMatches is ReadOnlyCollection, must replace the whole result
+        $result = [System.Management.Automation.CommandCompletion]::new(
+            [System.Collections.ObjectModel.Collection[System.Management.Automation.CompletionResult]]$cleaned,
+            $result.CurrentMatchIndex,
+            $result.ReplacementIndex,
+            $result.ReplacementLength
+        )
+    }
+
+    $result
 }
 
 # Custom completion for common commands

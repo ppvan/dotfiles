@@ -91,30 +91,6 @@ function trash {
     }
 }
 
-# ------------------------------------------------------------
-# Search / text
-# ------------------------------------------------------------
-
-function grep {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory, Position=0)]
-        [string]$Pattern,
-
-        [Parameter(Position=1)]
-        [string]$Path,
-
-        [switch]$Recurse
-    )
-
-    if ($Path) {
-        Get-ChildItem -Path $Path -Recurse:$Recurse -File |
-            Select-String -Pattern $Pattern
-    } else {
-        $input | Select-String -Pattern $Pattern
-    }
-}
-
 function sed {
     [CmdletBinding(SupportsShouldProcess)]
     param(

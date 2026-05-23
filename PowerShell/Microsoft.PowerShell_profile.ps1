@@ -13,23 +13,8 @@ Register-CDPathCompleter
 # Coreutils implemented using powershell----------------
 Import-Module CoreUtils
 Set-Alias ls Invoke-Ls
-Set-Alias cd Set-LocationEnhanced -Scope Global -Option AllScope -Force
-Set-Alias Set-Location Set-LocationEnhanced -Scope Global -Option AllScope -Force
+Set-Alias grep rg
 # ------------------------------------------------------
-
-# Auto-generate .cmd shims for .ps1 scripts
-$scriptsDir = "$PSScriptRoot\Scripts"
-
-Get-ChildItem -Path $scriptsDir -Filter "*.ps1" | ForEach-Object {
-    $cmdPath = Join-Path $scriptsDir "$($_.BaseName).cmd"
-    
-    if (-not (Test-Path $cmdPath)) {
-        $content = "@echo off`npowershell -NoProfile -File `"%~dp0$($_.Name)`" %*"
-        Set-Content -Path $cmdPath -Value $content
-        Write-Host "Created: $($_.BaseName).cmd"
-    }
-}
-
 # Add Scripts to PATH
 $env:PATH += ";$PSScriptRoot\Scripts"
 

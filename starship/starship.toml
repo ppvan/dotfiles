@@ -1,0 +1,38 @@
+add_newline = false
+
+format = """
+[](fg:178)$username[](fg:178) at [](fg:99 italic)$hostname[](fg:99) in [](fg:69 bold underline)$directory[](fg:69) [](fg:135)$git_branch$git_status[](fg:135)
+$character\
+"""
+
+[username]
+style_user = "fg:178"
+style_root = "fg:178"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$hostname]($style)"
+style = "fg:99 italic"
+disabled = false
+
+[directory]
+format = "[$path]($style)"
+style = "fg:69 bold underline"
+truncation_length = 0
+truncate_to_repo = false
+
+[git_branch]
+format = "[$symbol$branch]($style)"
+style = "fg:135"
+symbol = ""
+
+[git_status]
+format = "[$all_status$ahead_behind]($style)"
+style = "fg:135"
+
+[character]
+success_symbol = "[↪](bold)"
+error_symbol = "[↪](bold red)"

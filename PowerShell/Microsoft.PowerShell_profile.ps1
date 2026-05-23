@@ -1,4 +1,5 @@
 # Starship prompt (PS1)
+$env:STARSHIP_CONFIG = "$HOME\Documents\dotfiles\starship\starship.toml"
 Invoke-Expression (&starship init powershell)
 
 # ----- CDPATH ----------------------------------
@@ -92,6 +93,7 @@ function TabExpansion2 {
         $cleaned = $result.CompletionMatches
         | Where-Object {
             $completion = $_
+            $completion.ResultType -ne 'Command' -or
             $completion.CompletionText -notmatch '^(Microsoft).*'
         } | ForEach-Object {
             $completion = $_

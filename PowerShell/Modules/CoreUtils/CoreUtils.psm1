@@ -91,6 +91,31 @@ function trash {
     }
 }
 
+function env { 
+    param([string]$filter)
+    if ($filter) { Get-ChildItem Env: | Where-Object Name -like "*$filter*" }
+    else { Get-ChildItem Env: }
+}
+
+function path { 
+    param([string]$filter)
+    if ($filter) { $env:PATH -split ';' | Select-String $filter }
+    else { $env:PATH -split ';' }
+}
+
+function pwd {
+    Get-Location
+}
+
+function wc {
+    param([string[]]$files)
+    foreach ($file in $files) {
+        Get-Content $file | Measure-Object -Word -Line -Character |
+            Select-Object Lines, Words, Characters, @{Name="FileName"; Expression={$file}}
+    }
+}
+
+
 function sed {
     [CmdletBinding(SupportsShouldProcess)]
     param(

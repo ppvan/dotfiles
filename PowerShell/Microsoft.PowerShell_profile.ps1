@@ -2,6 +2,9 @@
 $env:STARSHIP_CONFIG = "$HOME\Documents\dotfiles\starship\starship.toml"
 Invoke-Expression (&starship init powershell)
 
+# Eza config
+$env:EZA_CONFIG_DIR = "$HOME\Documents\dotfiles\eza"
+
 # ----- CDPATH ----------------------------------
 $env:CDPATH = "${HOME}:$HOME/Documents:$HOME/Downloads:$HOME/Documents/projects:."
 Import-Module CDPath

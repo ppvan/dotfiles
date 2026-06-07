@@ -15,7 +15,6 @@ Register-CDPathCompleter
 
 # Coreutils implemented using powershell----------------
 Import-Module CoreUtils
-Set-Alias ls Invoke-Ls
 Set-Alias grep rg
 # ------------------------------------------------------
 # Add Scripts to PATH
@@ -28,6 +27,25 @@ $env:PATH = ($env:PATH -split ';' | Where-Object {
     $_ -notmatch '^C:\\Program Files\\Common Files' -and
     $_ -notmatch 'C:\\Program Files\\PowerShell\\7\\'
 } | Select-Object -Unique) -join ';'
+
+# Render markdown
+Set-MarkdownOption -Theme Dark
+Set-MarkdownOption -Header1Color               "38;2;235;111;146m"   # Love   #eb6f92
+Set-MarkdownOption -Header2Color               "38;2;246;193;119m"   # Gold   #f6c177
+Set-MarkdownOption -Header3Color               "38;2;156;207;216m"   # Foam   #9ccfd8
+Set-MarkdownOption -Header4Color               "38;2;196;167;231m"   # Iris   #c4a7e7
+Set-MarkdownOption -Header5Color               "38;2;235;188;186m"   # Rose   #ebbcba
+Set-MarkdownOption -Header6Color               "38;2;144;140;170m"   # Subtle #908caa
+Set-MarkdownOption -LinkForegroundColor        "4;38;2;49;116;143m"  # Pine   #31748f
+Set-MarkdownOption -ImageAltTextForegroundColor "38;2;235;188;186m"  # Rose   #ebbcba
+Set-MarkdownOption -BoldForegroundColor        "1;38;2;224;222;244m" # Text   #e0def4
+Set-MarkdownOption -ItalicsForegroundColor     "3;38;2;144;140;170m"   # Subtle #
+Set-MarkdownOption -Code "[48;2;31;29;46;38;2;224;222;244m"
+
+# LS COLOR
+$PSStyle.FileInfo.Directory            = "`e[38;2;49;116;143m"  # Foam   #31748f
+$PSStyle.FileInfo.Executable           = "`e[38;2;235;111;146m"  # Love   #eb6f92
+$PSStyle.FileInfo.SymbolicLink         = "`e[38;2;196;167;231m"  # Iris   #c4a7e7
 
 # PSreadline ------------------------------------------------------------------------
 $PSReadLineOptions = @{
@@ -68,6 +86,7 @@ Set-PSReadLineOption -AddToHistoryHandler {
     $hasSensitive = $sensitive | Where-Object { $line -match $_ }
     return ($null -eq $hasSensitive)
 }
+
 
 # Strip .exe/.cmd/.ps1 extensions from command name completions
 $global:__OriginalTabExpansion2 = $function:TabExpansion2

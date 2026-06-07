@@ -36,6 +36,24 @@ function head {
     Get-Content -Path $Path -Head $Count
 }
 
+function realpath {
+    param (
+        [Parameter(Mandatory, Position=0)]
+        [string]$Path
+    )
+    
+    Resolve-Path $Path
+}
+
+function basename {
+    param (
+        [Parameter(Mandatory, Position=0)]
+        [string]$Path
+    )
+
+    Resolve-Path $Path | Get-Item  | Select-Object Directory
+}
+
 function tail {
     [CmdletBinding()]
     param(
@@ -222,6 +240,10 @@ function df {
     param()
 
     Get-Volume
+}
+
+function wget {
+    & "wget2.exe" @args
 }
 
 function uptime {

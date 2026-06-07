@@ -1,13 +1,13 @@
 # ===== WINFETCH CONFIGURATION =====
 
-# $image = "~/winfetch.png"
+# $image = "~/Pictures/ppvan.jpg"
 # $noimage = $true
 
 # Display image using ASCII characters
 # $ascii = $true
 
 # Set the version of Windows to derive the logo from.
-# $logo = "Windows 10"
+$logo = "Windows 10"
 
 # Specify width for image/logo
 # $imgwidth = 24
@@ -94,16 +94,16 @@
     "pwsh"
     "resolution"
     "terminal"
-    # "theme"
+    "theme"
     "cpu"
     "gpu"
-    # "cpu_usage"
+    "cpu_usage"
     "memory"
     "disk"
-    # "battery"
+    "battery"
     # "locale"
     # "weather"
-    # "local_ip"
+    "local_ip"
     # "public_ip"
     "blank"
     "colorbar"
